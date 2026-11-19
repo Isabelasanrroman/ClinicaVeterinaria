@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutores | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">♡ Clínica Veterinária</div>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">Início</a>
+            <a href="{{ url_for('sair') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+            <div>
+                <h1>Tutores</h1>
+                <p>Gerencie os tutores cadastrados.</p>
+            </div>
+
+            <a href="{{ url_for('cadastrar_tutor') }}" class="botao-link">
+                + Novo tutor
+            </a>
+        </div>
+
+        {% with mensagens = get_flashed_messages() %}
+            {% for mensagem in mensagens %}
+                <div class="mensagem">{{ mensagem }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="GET" action="{{ url_for('tutores') }}" class="pesquisa">
+            <input
+                type="text"
+                name="busca"
+                value="{{ busca }}"
+                placeholder="Pesquisar por nome, CPF, telefone ou e-mail"
+            >
+
+            <button type="submit">Pesquisar</button>
+        </form>
+
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for tutor in tutores %}
+                    <tr>
+                        <td>{{ tutor.nome }}</td>
+                        <td>{{ tutor.telefone }}</td>
+                        <td>{{ tutor.email }}</td>
+                        <td>
+                            <div class="acoes-tutor">
+                                <a href="{{ url_for('editar_tutor', id=tutor.id) }}" class="editar">
+                                    Editar
+                                </a>
+
+                                <form
+                                    action="{{ url_for('excluir_tutor', id=tutor.id) }}"
+                                    method="POST"
+                                    class="form-excluir"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir este tutor?')"
+                                >
+                                    <button type="submit" class="excluir">Excluir</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Nenhum tutor encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

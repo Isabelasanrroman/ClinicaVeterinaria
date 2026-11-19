@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">♡ Clínica Veterinária</div>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">Início</a>
+            <a href="{{ url_for('sair') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+    <div>
+        <h1>Agendamentos</h1>
+        <p>Organize as consultas da clínica.</p>
+    </div>
+
+    <a href="{{ url_for('agendamentos', novo=1) }}" class="botao-link">
+        + Novo Agendamento
+    </a>
+</div>
+
+    {% with mensagens = get_flashed_messages() %}
+        {% for mensagem in mensagens %}
+            <div class="mensagem">{{ mensagem }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if mostrar_formulario %}
+    <section class="formulario">
+        <h2>Novo agendamento</h2>
+
+        <form method="POST">
+
+            <label>Pet</label>
+            <select name="pet_id" required>
+                <option value="">Selecione o pet</option>
+
+                {% for pet in pets %}
+                    <option value="{{ pet.id }}">{{ pet.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Data</label>
+            <input type="date" name="data" required>
+
+            <label>Horário</label>
+            <input type="time" name="horario" required>
+
+            <label>Motivo</label>
+            <input type="text" name="motivo" required>
+
+            <button type="submit">Agendar consulta</button>
+
+            <a href="{{ url_for('agendamentos') }}" class="cancelar">
+                Cancelar
+            </a>
+
+        </form>
+    </section>
+    {% endif %}
+
+        <h2 class="subtitulo">Consultas cadastradas</h2>
+
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Pet</th>
+                        <th>Espécie</th>
+                        <th>Raça</th>
+                        <th>Idade</th>
+                        <th>Tutor</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Motivo</th>
+                        <th>Atualizar data</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for agendamento in agendamentos %}
+                    <tr>
+                        <td>{{ agendamento.data.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ agendamento.horario.strftime('%H:%M') }}</td>
+                        <td>{{ agendamento.pet_nome }}</td>
+                        <td>{{ agendamento.especie }}</td>
+                        <td>{{ agendamento.raca }}</td>
+                        <td>{{ agendamento.idade }}</td>
+                        <td>{{ agendamento.tutor_nome }}</td>
+                        <td>{{ agendamento.telefone }}</td>
+                        <td>{{ agendamento.email }}</td>
+                        <td>{{ agendamento.motivo }}</td>
+                        <td>
+                            <form
+                                action="{{ url_for('editar_agendamento', id=agendamento.id) }}"
+                                method="POST"
+                                class="form-data"
+                            >
+                                <input type="date" name="data" required>
+                                <button type="submit">Salvar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="11">Nenhum agendamento cadastrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

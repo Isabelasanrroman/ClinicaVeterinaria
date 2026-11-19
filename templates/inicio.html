@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">♡ Clínica Veterinária</div>
+
+        <nav>
+            <span>Olá, {{ usuario }}!</span>
+            <a href="{{ url_for('sair') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+        <section class="apresentacao">
+            <h1>Bem-vindo(a)!</h1>
+            <p>Gerencie as informações da clínica em um só lugar.</p>
+        </section>
+
+        <section class="cards">
+
+            <a href="{{ url_for('tutores') }}" class="card card-rosa">
+                <span class="icone">♡</span>
+                <h2>Tutores</h2>
+                <p>Consultar, cadastrar e editar tutores.</p>
+                <span class="acessar">Acessar →</span>
+            </a>
+
+            <a href="{{ url_for('pets') }}" class="card card-lilas">
+                <span class="icone">🐾</span>
+                <h2>Pets</h2>
+                <p>Cadastrar pets e associá-los aos tutores.</p>
+                <span class="acessar">Acessar →</span>
+            </a>
+
+            <a href="{{ url_for('agendamentos') }}" class="card card-verde">
+                <span class="icone">▦</span>
+                <h2>Agendamentos</h2>
+                <p>Consultar e organizar as consultas.</p>
+                <span class="acessar">Acessar →</span>
+            </a>
+
+        </section>
+    </main>
+
+</body>
+</html>

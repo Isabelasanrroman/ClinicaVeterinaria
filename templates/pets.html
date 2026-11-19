@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">♡ Clínica Veterinária</div>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">Início</a>
+            <a href="{{ url_for('sair') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="titulo-pagina">
+    <div>
+        <h1>Pets</h1>
+        <p>Cadastre os animais e seus respectivos tutores.</p>
+    </div>
+
+    <a href="{{ url_for('pets', novo=1) }}" class="botao-link">
+        + Novo Pet
+    </a>
+</div>
+
+    {% with mensagens = get_flashed_messages() %}
+        {% for mensagem in mensagens %}
+            <div class="mensagem">{{ mensagem }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if mostrar_formulario %}
+    <section class="formulario">
+        <h2>Novo pet</h2>
+
+        <form method="POST">
+
+            <label>Nome do pet</label>
+            <input type="text" name="nome" required>
+
+            <label>Espécie</label>
+            <select name="especie" required>
+                <option value="">Selecione</option>
+                <option value="Cachorro">Cachorro</option>
+                <option value="Gato">Gato</option>
+                <option value="Outro">Outro</option>
+            </select>
+
+            <label>Raça</label>
+            <input type="text" name="raca">
+
+            <label>Idade</label>
+            <input type="number" name="idade" min="0" required>
+
+            <label>Tutor</label>
+            <select name="tutor_id" required>
+                <option value="">Selecione o tutor</option>
+
+                {% for tutor in tutores %}
+                    <option value="{{ tutor.id }}">{{ tutor.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Cadastrar pet</button>
+
+            <a href="{{ url_for('pets') }}" class="cancelar">
+                Cancelar
+            </a>
+
+        </form>
+    </section>
+    {% endif %}
+
+        <h2 class="subtitulo">Pets cadastrados</h2>
+
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Espécie</th>
+                        <th>Raça</th>
+                        <th>Idade</th>
+                        <th>Tutor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for pet in pets %}
+                    <tr>
+                        <td>{{ pet.nome }}</td>
+                        <td>{{ pet.especie }}</td>
+                        <td>{{ pet.raca }}</td>
+                        <td>{{ pet.idade }}</td>
+                        <td>{{ pet.tutor_nome }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Nenhum pet cadastrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

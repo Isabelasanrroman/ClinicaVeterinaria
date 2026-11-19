@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS usuario (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tutores (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(32) UNIQUE NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS pet (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    especie VARCHAR(50) NOT NULL,
+    raca VARCHAR(80),
+    idade INTEGER NOT NULL,
+    tutor_id INTEGER NOT NULL,
+    FOREIGN KEY (tutor_id) REFERENCES tutores(id)
+);
+
+CREATE TABLE IF NOT EXISTS agendamentos (
+    id SERIAL PRIMARY KEY,
+    data DATE NOT NULL,
+    horario TIME NOT NULL,
+    motivo VARCHAR(200) NOT NULL,
+    pet_id INTEGER NOT NULL,
+    FOREIGN KEY (pet_id) REFERENCES pet(id)
+);

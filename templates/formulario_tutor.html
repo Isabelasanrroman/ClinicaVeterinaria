@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">♡ Clínica Veterinária</div>
+
+        <nav>
+            <a href="{{ url_for('tutores') }}">Voltar</a>
+            <a href="{{ url_for('sair') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="conteudo">
+
+        <section class="formulario">
+            <h1>{{ 'Editar tutor' if tutor else 'Cadastrar tutor' }}</h1>
+
+            {% with mensagens = get_flashed_messages() %}
+                {% for mensagem in mensagens %}
+                    <div class="mensagem">{{ mensagem }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <label>Nome completo</label>
+                <input
+                    type="text"
+                    name="nome"
+                    value="{{ tutor.nome if tutor else '' }}"
+                    required
+                >
+
+                <label>CPF</label>
+                <input
+                    type="text"
+                    name="cpf"
+                    placeholder="{{ 'Deixe vazio para manter o CPF atual' if tutor else 'Digite o CPF' }}"
+                    maxlength="14"
+                    {% if not tutor %}required{% endif %}
+                >
+
+                <label>Telefone</label>
+                <input
+                    type="text"
+                    name="telefone"
+                    value="{{ tutor.telefone if tutor else '' }}"
+                    required
+                >
+
+                <label>E-mail</label>
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ tutor.email if tutor else '' }}"
+                    required
+                >
+
+                <button type="submit">Salvar</button>
+
+                <a href="{{ url_for('tutores') }}" class="cancelar">
+                    Cancelar
+                </a>
+
+            </form>
+        </section>
+
+    </main>
+
+</body>
+</html>

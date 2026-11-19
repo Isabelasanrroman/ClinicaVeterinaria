@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Clínica Veterinária</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="pagina-login">
+
+    <main class="login">
+        <div class="marca">♡</div>
+
+        <h1>Clínica Veterinária</h1>
+        <p>Bem-vindo(a) de volta!</p>
+
+        {% with mensagens = get_flashed_messages() %}
+            {% for mensagem in mensagens %}
+                <div class="mensagem">{{ mensagem }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="{{ url_for('entrar') }}" method="POST">
+            <label>E-mail</label>
+            <input type="email" name="email" placeholder="Seu e-mail" required>
+
+            <label>Senha</label>
+            <input type="password" name="senha" placeholder="Sua senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </main>
+
+</body>
+</html>
